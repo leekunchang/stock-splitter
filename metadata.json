@@ -1,0 +1,6 @@
+{
+  "name": "루현이 주식분배기",
+  "description": "A sophisticated financial tool to automatically calculate currency distributions based on custom ratios, featuring Gemini AI budgeting advice.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
