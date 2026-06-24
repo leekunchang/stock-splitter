@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Calculator, Plus, Trash2, PieChart, Sparkles, RefreshCw, ArrowRightLeft, Coins, DollarSign, TrendingUp } from 'lucide-react';
+import { Calculator, Plus, Trash2, PieChart, Sparkles, RefreshCw, ArrowRightLeft, Coins, DollarSign, TrendingUp, Download } from 'lucide-react';
 import { RatioPart, CalculationResult, AiSuggestion } from './types';
 import { getBudgetingAdvice, getLiveExchangeRate, fetchFallbackExchangeRate } from './services/geminiService';
 
@@ -605,7 +605,7 @@ const App: React.FC = () => {
 
             <div className="p-6 md:p-8 bg-blue-600 text-white mt-auto" id="results-footer-summary">
               <div className="flex justify-between items-start">
-                <span className="text-blue-100 font-bold mt-1 uppercase text-sm tracking-wider">총 배분액 합계</span>
+                <span className="text-blue-100 font-bold mt-1 uppercase text-sm tracking-wider">총 합계</span>
                 <div className="text-right">
                   <div className="text-2xl md:text-3xl font-black tracking-tight leading-none tabular-nums">
                     {formatKRW(results.reduce((s, r) => s + r.amountKrw, 0))}
@@ -683,9 +683,37 @@ const App: React.FC = () => {
             </h4>
             <ul className="space-y-2 list-disc pl-4 opacity-80">
               <li><strong>통화 전환 (₩/$)</strong>: 상단 1번 탭을 통해 원화 혹은 달러 기반 입력을 원클릭으로 전환하여 실시간 계산 결과를 확인할 수 있습니다.</li>
-              <li><strong>구글 실시간 환율</strong>: 오른쪽 상단 새로고침을 누르면 구글 검색 grounding을 가동하여 가장 실시간인 달러 환율을 업데이트 해옵니다.</li>
               <li><strong>수동 환율 변경</strong>: 원하는 특정 가상 환율이나 목표 환전 기준이 있다면 "수동 환율 변경" 기능을 이용하여 커스텀한 비율로 오차를 시뮬레이션할 수 있습니다.</li>
             </ul>
+          </div>
+
+          {/* App Download/Install Guide */}
+          <div className="bg-white rounded-2xl p-6 text-slate-600 text-sm mt-6 border border-slate-200 shadow-sm" id="pwa-install-guide">
+            <h4 className="text-slate-800 font-bold mb-4 flex items-center gap-2">
+              <Download size={16} className="text-blue-600" />
+              앱 다운로드 방법
+            </h4>
+            <div className="space-y-4">
+              <div>
+                <h5 className="font-bold text-slate-700 text-xs mb-1.5 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                  안드로이드
+                </h5>
+                <ul className="text-xs text-slate-500 space-y-1 pl-3.5 list-disc">
+                  <li><strong>크롬</strong>: 우측 상단 더보기 메뉴(・・・) ➔ [홈 화면에 추가] 또는 [앱 설치]</li>
+                  <li><strong>삼성 인터넷</strong>: 하단 메뉴(☰) ➔ [현재 페이지 추가] ➔ [홈 화면]</li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-bold text-slate-700 text-xs mb-1.5 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                  아이폰 (iOS)
+                </h5>
+                <ul className="text-xs text-slate-500 space-y-1 pl-3.5 list-disc">
+                  <li>하단 메뉴(공유 아이콘 또는 ・・・) ➔ [홈 화면에 추가]</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
       </main>
