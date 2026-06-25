@@ -628,7 +628,10 @@ const App: React.FC = () => {
               <Sparkles size={18} className="text-yellow-300" />
               AI 배분 추천
             </h3>
-            <p className="text-blue-100 text-sm mb-4">어떤 목적으로 돈을 나누시나요? AI가 최적의 비율을 추천해 드립니다.</p>
+            <p className="text-blue-100 text-sm mb-4">
+              어떤 목적으로 돈을 나누시나요?<br />
+              AI가 최적의 비율을 추천해 드립니다.
+            </p>
             <div className="flex gap-2">
               <input
                 type="text"
