@@ -1,6 +1,6 @@
 {
-  "short_name": "Ratio Splitter",
-  "name": "Smart Ratio Splitter & Rebalancer",
+  "short_name": "자산분배기",
+  "name": "자산분배기 - 스마트 금액 분배 계산기",
   "icons": [
     {
       "src": "/icon-512.png",
