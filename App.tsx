@@ -267,103 +267,6 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          {/* Exchange Rate Setup Card */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 relative overflow-hidden" id="exchange-rate-card">
-            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-50 to-transparent -z-10 rounded-full" />
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
-                  <TrendingUp size={14} className="text-blue-500" />
-                  실시간 환율 변환 정보
-                </h3>
-                <p className="text-xs text-slate-400 mt-0.5">구글 검색을 적용한 실시간 환율을 반영합니다.</p>
-              </div>
-              <button
-                type="button"
-                onClick={updateExchangeRateFn}
-                disabled={isFetchingExchangeRate}
-                className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition-colors disabled:opacity-50"
-                title="Google 실시간 환율 업데이트"
-                id="refresh-rate-btn"
-              >
-                <RefreshCw size={16} className={isFetchingExchangeRate ? "animate-spin text-blue-500" : ""} />
-              </button>
-            </div>
-
-            <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between" id="exchange-rate-value-display">
-              {isEditingRate ? (
-                <div className="flex gap-2 items-center w-full" id="manual-rate-editor">
-                  <span className="text-xs font-bold text-slate-500">1 USD =</span>
-                  <input
-                    type="number"
-                    value={exchangeRateInput}
-                    onChange={(e) => setExchangeRateInput(e.target.value)}
-                    className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm font-bold text-right focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800"
-                    placeholder="환율 입력"
-                    step="0.1"
-                  />
-                  <span className="text-xs font-bold text-slate-500">원</span>
-                  <button
-                    type="button"
-                    onClick={handleSaveManualRate}
-                    className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-colors"
-                  >
-                    적용
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsEditingRate(false);
-                      setExchangeRateInput(exchangeRate.toString());
-                    }}
-                    className="px-2 py-1.5 text-slate-400 hover:text-slate-600 text-xs font-medium"
-                  >
-                    취소
-                  </button>
-                </div>
-              ) : (
-                <div className="flex justify-between items-center w-full" id="rate-static-item">
-                  <div>
-                    <div className="text-xl font-black text-slate-800 tracking-tight">
-                      1 USD <span className="text-slate-400 font-medium">≈</span> ₩{exchangeRate.toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
-                      <span className={`inline-block w-2 h-2 rounded-full ${
-                        exchangeRateProvider === 'gemini' ? 'bg-green-500' :
-                        exchangeRateProvider === 'api' ? 'bg-amber-500' :
-                        exchangeRateProvider === 'manual' ? 'bg-blue-500' : 'bg-slate-400'
-                      }`} />
-                      <span className="text-[10px] text-slate-500 font-bold uppercase">
-                        {exchangeRateProvider === 'gemini' ? '구글 실시간 검색 연동' :
-                         exchangeRateProvider === 'api' ? '금융 정보 REST API 연동' :
-                         exchangeRateProvider === 'manual' ? '수동 입력값 사용중' : '기본 설정값'}
-                      </span>
-                      {exchangeRateTime && (
-                        <span className="text-[10px] text-slate-400">({exchangeRateTime})</span>
-                      )}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsEditingRate(true);
-                      setExchangeRateInput(exchangeRate.toString());
-                    }}
-                    className="px-2.5 py-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                    id="edit-rate-btn"
-                  >
-                    수동 변경
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-3 text-[11px] text-slate-400 flex items-center gap-1">
-              <span>💡</span>
-              <span>달러-원 비율 계산에 실시간 환율이 자동 적용됩니다. 환율 수치 수정도 가능합니다.</span>
-            </div>
-          </div>
-
           {/* Ratio Config Card */}
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6" id="ratio-config-card">
             <div className="flex justify-between items-center mb-4">
@@ -430,11 +333,11 @@ const App: React.FC = () => {
         <section className="lg:col-span-12 xl:col-span-7 space-y-6 lg:order-2" id="results-panel">
           <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden flex flex-col h-auto" id="results-card">
             <div className="p-6 md:p-8 bg-slate-50 border-b border-slate-100 flex justify-between items-center" id="results-header">
-              <div>
+              <div className="min-w-0 flex-1">
                 <h2 className="text-xl font-bold text-slate-800">계산 결과</h2>
-                <p className="text-slate-400 text-sm">입력하신 비율과 실시간 환율을 반영한 금액 배분 테이블입니다.</p>
+                <p className="text-slate-400 text-[11px] xs:text-xs md:text-sm whitespace-nowrap">입력하신 비율과 실시간 환율을 반영한 결과입니다.</p>
               </div>
-              <PieChart className="text-blue-300" size={40} />
+              <PieChart className="text-blue-300 shrink-0 ml-2" size={40} />
             </div>
 
             {results.length > 0 && (
@@ -604,8 +507,8 @@ const App: React.FC = () => {
             </div>
 
             <div className="p-6 md:p-8 bg-blue-600 text-white mt-auto" id="results-footer-summary">
-              <div className="flex justify-between items-start">
-                <span className="text-blue-100 font-bold mt-1 uppercase text-sm tracking-wider">총 합계</span>
+              <div className="flex justify-between items-center gap-4">
+                <span className="text-blue-100 font-bold uppercase text-sm tracking-wider whitespace-nowrap shrink-0">총 합계</span>
                 <div className="text-right">
                   <div className="text-2xl md:text-3xl font-black tracking-tight leading-none tabular-nums">
                     {formatKRW(results.reduce((s, r) => s + r.amountKrw, 0))}
@@ -613,11 +516,108 @@ const App: React.FC = () => {
                   <div className="text-sm md:text-base font-bold text-blue-100 mt-1.5 tabular-nums">
                     {formatUSD(results.reduce((s, r) => s + r.amountUsd, 0))}
                   </div>
-                  <div className="text-[10px] text-blue-200 mt-2 uppercase tracking-widest font-bold">
-                    * 원화 반올림 및 환율 차이로 인해 미세한 오차가 발생할 수 있습니다.
-                  </div>
                 </div>
               </div>
+              <div className="text-[9px] md:text-[10px] text-blue-200 mt-4 pt-3 border-t border-blue-500/40 text-center uppercase tracking-wider font-bold whitespace-nowrap block w-full">
+                * 원화 반올림 및 환율 차이로 인해 미세한 오차가 발생할 수 있습니다.
+              </div>
+            </div>
+          </div>
+
+          {/* Exchange Rate Setup Card */}
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 relative overflow-hidden" id="exchange-rate-card">
+            <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-50 to-transparent -z-10 rounded-full" />
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-sm font-semibold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                  <TrendingUp size={14} className="text-blue-500" />
+                  실시간 환율 변환 정보
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">구글 검색을 적용한 실시간 환율을 반영합니다.</p>
+              </div>
+              <button
+                type="button"
+                onClick={updateExchangeRateFn}
+                disabled={isFetchingExchangeRate}
+                className="p-1.5 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition-colors disabled:opacity-50"
+                title="Google 실시간 환율 업데이트"
+                id="refresh-rate-btn"
+              >
+                <RefreshCw size={16} className={isFetchingExchangeRate ? "animate-spin text-blue-500" : ""} />
+              </button>
+            </div>
+
+            <div className="bg-slate-50 rounded-xl p-4 border border-slate-100 flex items-center justify-between" id="exchange-rate-value-display">
+              {isEditingRate ? (
+                <div className="flex gap-2 items-center w-full" id="manual-rate-editor">
+                  <span className="text-xs font-bold text-slate-500">1 USD =</span>
+                  <input
+                    type="number"
+                    value={exchangeRateInput}
+                    onChange={(e) => setExchangeRateInput(e.target.value)}
+                    className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-sm font-bold text-right focus:outline-none focus:ring-1 focus:ring-blue-500 text-slate-800"
+                    placeholder="환율 입력"
+                    step="0.1"
+                  />
+                  <span className="text-xs font-bold text-slate-500">원</span>
+                  <button
+                    type="button"
+                    onClick={handleSaveManualRate}
+                    className="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold transition-colors"
+                  >
+                    적용
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingRate(false);
+                      setExchangeRateInput(exchangeRate.toString());
+                    }}
+                    className="px-2 py-1.5 text-slate-400 hover:text-slate-600 text-xs font-medium"
+                  >
+                    취소
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-between items-center w-full" id="rate-static-item">
+                  <div>
+                    <div className="text-xl font-black text-slate-800 tracking-tight">
+                      1 USD <span className="text-slate-400 font-medium">≈</span> ₩{exchangeRate.toLocaleString('ko-KR', { minimumFractionDigits: 1, maximumFractionDigits: 2 })}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
+                      <span className={`inline-block w-2 h-2 rounded-full ${
+                        exchangeRateProvider === 'gemini' ? 'bg-green-500' :
+                        exchangeRateProvider === 'api' ? 'bg-amber-500' :
+                        exchangeRateProvider === 'manual' ? 'bg-blue-500' : 'bg-slate-400'
+                      }`} />
+                      <span className="text-[10px] text-slate-500 font-bold uppercase">
+                        {exchangeRateProvider === 'gemini' ? '구글 실시간 검색 연동' :
+                         exchangeRateProvider === 'api' ? '금융 정보 REST API 연동' :
+                         exchangeRateProvider === 'manual' ? '수동 입력값 사용중' : '기본 설정값'}
+                      </span>
+                      {exchangeRateTime && (
+                        <span className="text-[10px] text-slate-400">({exchangeRateTime})</span>
+                      )}
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingRate(true);
+                      setExchangeRateInput(exchangeRate.toString());
+                    }}
+                    className="px-2.5 py-1 text-xs font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
+                    id="edit-rate-btn"
+                  >
+                    수동 변경
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-3 text-[11px] text-slate-400 flex items-center gap-1">
+              <span>💡</span>
+              <span>달러-원 비율 계산에 실시간 환율이 자동 적용됩니다. 환율 수치 수정도 가능합니다.</span>
             </div>
           </div>
 
@@ -699,9 +699,9 @@ const App: React.FC = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
                   안드로이드
                 </h5>
-                <ul className="text-xs text-slate-500 space-y-1 pl-3.5 list-disc">
-                  <li><strong>크롬</strong>: 우측 상단 더보기 메뉴(・・・) ➔ [홈 화면에 추가] 또는 [앱 설치]</li>
-                  <li><strong>삼성 인터넷</strong>: 하단 메뉴(☰) ➔ [현재 페이지 추가] ➔ [홈 화면]</li>
+                <ul className="text-xs text-slate-500 space-y-1.5 pl-3.5 list-disc">
+                  <li className="whitespace-nowrap"><strong>크롬</strong>: 우측 상단 메뉴 ➔ [홈 화면에 추가] 또는 [앱 설치]</li>
+                  <li className="whitespace-nowrap"><strong>삼성 인터넷</strong>: 하단 메뉴(☰) ➔ [현재 페이지 추가] ➔ [홈 화면]</li>
                 </ul>
               </div>
               <div>
@@ -709,8 +709,8 @@ const App: React.FC = () => {
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
                   아이폰 (iOS)
                 </h5>
-                <ul className="text-xs text-slate-500 space-y-1 pl-3.5 list-disc">
-                  <li>하단 메뉴(공유 아이콘 또는 ・・・) ➔ [홈 화면에 추가]</li>
+                <ul className="text-xs text-slate-500 space-y-1.5 pl-3.5 list-disc">
+                  <li className="whitespace-nowrap">하단 [공유] 아이콘 ➔ [홈 화면에 추가]</li>
                 </ul>
               </div>
             </div>
